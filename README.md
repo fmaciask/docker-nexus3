@@ -1,4 +1,4 @@
-# Sonatype Nexus3 Docker: sonatype/nexus3
+# Nexus3 Docker under alpine: sonatype/nexus3
 
 A Dockerfile for Sonatype Nexus Repository Manager 3, based on openjdk - alpine.
 
@@ -7,10 +7,16 @@ A Dockerfile for Sonatype Nexus Repository Manager 3, based on openjdk - alpine.
   * [Build Args](#build-args)
 * [Getting Help](#getting-help)
 
+
+Copy the Dockerfile and do the build-
+
+```
+$ docker build -f Dockerfile.alpine --tag nexus-alpine .
+```
 To run, binding the exposed port 8081 to the host.
 
 ```
-$ docker run -d -p 8081:8081 --name nexus sonatype/nexus3
+$ docker run -d -p 8081:8081 --name nexus nexus-alpine
 ```
 
 To test:
@@ -19,13 +25,7 @@ To test:
 $ curl -u admin:admin123 http://localhost:8081/service/metrics/ping
 ```
 
-To (re)build the image:
 
-Copy the Dockerfile and do the build-
-
-```
-$ docker build --rm=true --tag=sonatype/nexus3 .
-```
 
 ## Notes
 
@@ -56,7 +56,7 @@ process, which runs as UID 200.
   These can be used supplied at runtime to control the JVM:
 
   ```
-  $ docker run -d -p 8081:8081 --name nexus -e JAVA_MAX_MEM=768m sonatype/nexus3
+  $ docker run -d -p 8081:8081 --name nexus -e JAVA_MAX_MEM=768m nexus-alpine
   ```
 
 * Another environment variable can be used to control the Nexus Context Path
@@ -66,7 +66,7 @@ process, which runs as UID 200.
   This can be supplied at runtime:
 
   ```
-  $ docker run -d -p 8081:8081 --name nexus -e NEXUS_CONTEXT=nexus sonatype/nexus3
+  $ docker run -d -p 8081:8081 --name nexus -e NEXUS_CONTEXT=nexus nexus-alpine
   ```
 
 ### Persistent Data
