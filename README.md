@@ -1,6 +1,6 @@
 # Sonatype Nexus3 Docker: sonatype/nexus3
 
-A Dockerfile for Sonatype Nexus Repository Manager 3, based on CentOS.
+A Dockerfile for Sonatype Nexus Repository Manager 3, based on openjdk - alpine.
 
 * [Notes](#notes)
   * [Persistent Data](#persistent-data)
