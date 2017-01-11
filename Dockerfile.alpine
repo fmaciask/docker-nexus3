@@ -41,15 +41,6 @@ ENV NEXUS_HOME=${SONATYPE_DIR}/nexus \
   NEXUS_CONTEXT='' \
   SONATYPE_WORK=${SONATYPE_DIR}/sonatype-work
 
-# install Oracle JRE
-RUN mkdir -p /opt \
-  && curl --fail --silent --location --retry 3 \
-  --header "Cookie: oraclelicense=accept-securebackup-cookie; " \
-  http://download.oracle.com/otn-pub/java/jdk/${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-b${JAVA_VERSION_BUILD}/server-jre-${JAVA_VERSION_MAJOR}u${JAVA_VERSION_MINOR}-linux-x64.tar.gz \
-  | gunzip \
-  | tar -x -C /opt \
-  && ln -s /opt/jdk1.${JAVA_VERSION_MAJOR}.0_${JAVA_VERSION_MINOR} ${JAVA_HOME}
-
 # install nexus
 RUN mkdir -p ${NEXUS_HOME} \
   && curl --fail --silent --location --retry 3 \
@@ -63,7 +54,7 @@ RUN sed \
     -e '/^nexus-context/ s:$:${NEXUS_CONTEXT}:' \
     -i ${NEXUS_HOME}/etc/nexus-default.properties
 
-RUN useradd -r -u 200 -m -c "nexus role account" -d ${NEXUS_DATA} -s /bin/false nexus \
+RUN useradd -S -u 200 -m -c "nexus role account" -d ${NEXUS_DATA} -s /bin/false nexus \
   && mkdir -p ${NEXUS_DATA}/etc ${NEXUS_DATA}/log ${NEXUS_DATA}/tmp ${SONATYPE_WORK} \
   && ln -s ${NEXUS_DATA} ${SONATYPE_WORK}/nexus3 \
   && chown -R nexus:nexus ${NEXUS_DATA}
