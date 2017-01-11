@@ -25,7 +25,7 @@ ARG NEXUS_DOWNLOAD_URL=https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSI
 
 RUN apk update && \
   apk add \
-  curl tar busybox \
+  curl tar \
   && rm -rf /var/cache/apk/*
 
 # configure java runtime
@@ -54,10 +54,10 @@ RUN sed \
     -e '/^nexus-context/ s:$:${NEXUS_CONTEXT}:' \
     -i ${NEXUS_HOME}/etc/nexus-default.properties
 
-RUN useradd -r -u 200 -m -c "nexus role account" -d ${NEXUS_DATA} -s /bin/false nexus \
+RUN adduser -S -u 200 -D -H -h "${NEXUS_DATA}" -s /bin/false nexus nexus \
   && mkdir -p ${NEXUS_DATA}/etc ${NEXUS_DATA}/log ${NEXUS_DATA}/tmp ${SONATYPE_WORK} \
   && ln -s ${NEXUS_DATA} ${SONATYPE_WORK}/nexus3 \
-  && chown -R nexus:nexus ${NEXUS_DATA}
+  && chown -R nexus ${NEXUS_DATA}
 
 VOLUME ${NEXUS_DATA}
 
